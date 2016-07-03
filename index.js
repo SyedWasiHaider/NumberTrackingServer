@@ -43,6 +43,8 @@ app.post('/api/photo',function(req,res){
         gm(req.file.path)
         .type("grayscale")
         .threshold(50,100)
+        .out("-define")
+    	.out("png:color-type=2")
         .noProfile()
 		.write(pngPath, function (err) {
 		  if (err){
