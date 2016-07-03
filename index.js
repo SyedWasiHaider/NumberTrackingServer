@@ -44,7 +44,6 @@ app.post('/api/photo',function(req,res){
         .type("grayscale")
         .threshold(50,100)
         .noProfile()
-		.resize(400)
 		.write(pngPath, function (err) {
 		  if (err){
 		  	console.log(err);
