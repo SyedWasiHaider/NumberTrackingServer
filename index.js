@@ -13,9 +13,7 @@ if (!fs.existsSync(dir)){
 }
 
 app.use(express.static(__dirname + '/uploads'));
-//app.set('port', (process.env.PORT || 5000));
-app.set('port', 5000);
-
+app.set('port', (process.env.PORT || 5000));
 
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
