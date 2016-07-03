@@ -23,6 +23,7 @@ app.get('/', function(request, response) {
 app.post('/api/photo',function(req,res){
     upload(req,res,function(err) {
         if(err) {
+        	console.log(err);
             return res.end("Error uploading file.");
         }
         res.end("File is uploaded");
