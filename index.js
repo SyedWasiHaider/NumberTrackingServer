@@ -2,8 +2,10 @@ var express = require('express');
 var app = express();
 var multer  =   require('multer');
 var fs  = require('fs');
-var okrabyte = require("okrabyte");
+var okrabyte = require('okrabyte');
+var gm = require('gm').subClass({ imageMagick: true });;
 var dir = './uploads';
+
 
 
 if (!fs.existsSync(dir)){
@@ -35,11 +37,25 @@ app.post('/api/photo',function(req,res){
         	console.log(err);
             return res.end("Error uploading file.");
         }
-        okrabyte.decodeFile(req.file.path, function(error, data){
-        	console.log(error);
-        	console.log(data);
-        	res.end(data);
+
+        var pngPath = req.file.path + ".png";
+        gm(req.file.path)
+		.noProfile()
+		.write(pngPath, function (err) {
+		  if (err){
+		  	console.log(err);
+		  	res.send(err);
+		  } else{
+		  	console.log('done');
+		  	okrabyte.decodeFile(pngPath, function(error, data){
+        		console.log(error);
+        		console.log(data);
+        		res.end(data);
+			});
+		  }
 		});
+
+        
     });
 });
 
