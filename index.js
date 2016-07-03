@@ -1,6 +1,12 @@
 var express = require('express');
 var app = express();
 var multer  =   require('multer');
+var fs  = require('fs');
+var dir = './uploads';
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -21,8 +27,8 @@ app.get('/', function(request, response) {
 });
 
 app.post('/api/photo',function(req,res){
-	console.log(req.file)
     upload(req,res,function(err) {
+    	console.log(req.file)
         if(err) {
         	console.log(err);
             return res.end("Error uploading file.");
