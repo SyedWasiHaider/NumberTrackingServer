@@ -12,6 +12,7 @@ if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
 }
 
+app.use(express.static(__dirname + '/uploads'));
 app.set('port', (process.env.PORT || 5000));
 
 var storage =   multer.diskStorage({
@@ -48,17 +49,17 @@ app.post('/api/photo',function(req,res){
 		  if (err){
 		  	console.log(err);
 		  	res.send(err);
-		  	fs.unlink(pngPath);
+		  	//fs.unlink(pngPath);
 		  } else{
 		  	console.log('done');
 		  	okrabyte.decodeFile(pngPath, function(error, data){
         		console.log(error);
         		console.log(data);
         		res.end(data);
-        		fs.unlink(pngPath);
+        		//fs.unlink(pngPath);
 			});
 		  }
-		  fs.unlink(req.file.path);
+		  //fs.unlink(req.file.path);
 		});
 
     });
