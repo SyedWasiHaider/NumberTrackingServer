@@ -14,7 +14,7 @@
     "express": "4.13.3",
     "gm": "^1.22.0",
     "multer": "1.1.0",
-    "okrabyte": "^0.1.1"
+    "node-tesseract": "^0.2.7"
   },
   "repository": {
     "type": "git",

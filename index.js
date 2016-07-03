@@ -2,9 +2,11 @@ var express = require('express');
 var app = express();
 var multer  =   require('multer');
 var fs  = require('fs');
-var okrabyte = require('okrabyte');
 var gm = require('gm').subClass({ imageMagick: true });;
 var dir = './uploads';
+
+var tesseract = require('node-tesseract');
+ 
 
 
 
@@ -39,28 +41,32 @@ app.post('/api/photo',function(req,res){
             return res.end("Error uploading file.");
         }
 
-        var pngPath = req.file.path + ".png";
-        gm(req.file.path)
+        var imagePath = req.file.path;
+        gm(imagePath)
         .type("grayscale")
         .threshold(50,100)
         .out("-define")
     	.out("png:color-type=2")
         .noProfile()
-		.write(pngPath, function (err) {
+		.write(imagePath, function (err) {
 		  if (err){
 		  	console.log(err);
-		  	res.send(err);
-		  	//fs.unlink(pngPath);
+        res.status(400).err("Please provide a valid image");
+		  	fs.unlink(imagePath);
 		  } else{
 		  	console.log('done');
-		  	okrabyte.decodeFile(pngPath, function(error, data){
-        		console.log(error);
-        		console.log(data);
-        		res.end(data);
-        		//fs.unlink(pngPath);
-			});
+		  	// Recognize text of any language in any format
+        tesseract.process(imagePath,function(err, text) {
+              if(err) {
+                  console.log(err);
+                  res.status(500).err("Could not process this image.");
+                } else {
+                  console.log(text);
+                  res.send(text);
+              }
+        		fs.unlink(imagePath);
+			   });
 		  }
-		  //fs.unlink(req.file.path);
 		});
 
     });
