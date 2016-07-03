@@ -17,7 +17,7 @@ var storage =   multer.diskStorage({
     callback(null, './uploads');
   },
   filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now());
+    callback(null, file.fieldname);
   }
 });
 
@@ -36,6 +36,8 @@ app.post('/api/photo',function(req,res){
             return res.end("Error uploading file.");
         }
         okrabyte.decodeFile(req.file.path, function(error, data){
+        	console.log(error);
+        	console.log(data);
         	res.end(data);
 		});
     });
