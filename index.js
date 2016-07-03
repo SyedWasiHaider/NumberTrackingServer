@@ -2,7 +2,9 @@ var express = require('express');
 var app = express();
 var multer  =   require('multer');
 var fs  = require('fs');
+var okrabyte = require("okrabyte");
 var dir = './uploads';
+
 
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
@@ -33,7 +35,9 @@ app.post('/api/photo',function(req,res){
         	console.log(err);
             return res.end("Error uploading file.");
         }
-        res.end("File is uploaded");
+        okrabyte.decodeFile(req.file.path, function(error, data){
+        	res.end(data);
+		});
     });
 });
 
