@@ -41,6 +41,7 @@ app.post('/api/photo',function(req,res){
         var pngPath = req.file.path + ".png";
         gm(req.file.path)
 		.noProfile()
+		.resize(400)
 		.write(pngPath, function (err) {
 		  fs.unlink(req.file.path);
 		  if (err){
@@ -57,7 +58,7 @@ app.post('/api/photo',function(req,res){
 			});
 		  }
 		});
-		
+
     });
 });
 
