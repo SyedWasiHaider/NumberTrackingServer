@@ -13,7 +13,7 @@ var storage =   multer.diskStorage({
   }
 });
 
-var upload = multer({ storage : storage}).single('userPhoto');
+var upload = multer({ storage : storage}).single('image');
 
 
 app.get('/', function(request, response) {
