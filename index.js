@@ -41,6 +41,7 @@ app.post('/api/photo',function(req,res){
 
         var pngPath = req.file.path + ".png";
         gm(req.file.path)
+        .type("grayscale")
         .threshold(50,100)
         .noProfile()
 		.resize(400)
