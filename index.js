@@ -41,22 +41,22 @@ app.post('/api/photo',function(req,res){
         var pngPath = req.file.path + ".png";
         gm(req.file.path)
 		.noProfile()
-		.resize(400)
+		.resize(1000)
 		.write(pngPath, function (err) {
-		  fs.unlink(req.file.path);
 		  if (err){
 		  	console.log(err);
-		  	fs.unlink(pngPath);
 		  	res.send(err);
+		  	fs.unlink(pngPath);
 		  } else{
 		  	console.log('done');
 		  	okrabyte.decodeFile(pngPath, function(error, data){
         		console.log(error);
         		console.log(data);
-        		fs.unlink(pngPath);
         		res.end(data);
+        		fs.unlink(pngPath);
 			});
 		  }
+		  fs.unlink(req.file.path);
 		});
 
     });
